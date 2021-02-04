@@ -33,14 +33,14 @@ resource "docker_container" "mycontainer" {
   }
 }
 resource "docker_network" "my_network" {
-  name = "selenium"
+  name = "my_selenium_network"
 }
 
 resource "docker_image" "selenium" {
   name = "selenium/hub"
 }
 resource "docker_container" "selenium-hub" {
-  name = "selenium-hub"
+  name = "my_selenium-hub"
   image = docker_image.selenium.latest
   must_run = true
   ports {
@@ -56,7 +56,7 @@ resource "docker_image" "chromeimg" {
   name = "selenium/node-chrome"
 }
 resource "docker_container" "chrome_1" {
-  name  = "chrome_1"
+  name  = "my_chrome_1"
   image = docker_image.chromeimg.latest
   must_run = true
   ports {
@@ -69,7 +69,7 @@ resource "docker_container" "chrome_1" {
 }
 
 resource "docker_container" "chrome_2" {
-  name  = "chrome_2"
+  name  = "my_chrome_2"
   image = docker_image.chromeimg.latest
   must_run = true
   ports {
@@ -82,7 +82,7 @@ resource "docker_container" "chrome_2" {
 }
 
 resource "docker_container" "chrome_3" {
-  name  = "chrome_3"
+  name  = "my_chrome_3"
   image = docker_image.chromeimg.latest
   must_run = true
   ports {
