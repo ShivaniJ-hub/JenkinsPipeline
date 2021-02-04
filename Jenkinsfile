@@ -61,18 +61,18 @@ pipeline {
                 }
             }
         }
-        /*stage('Check Version') {
+        stage('Check Version') {
             steps {
                 sleep 15
                 script{
-        		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9098/MusicStore/version.html', returnStdout: true)
+        		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9091/MusicStore/version.html', returnStdout: true)
         		    if(env.verCode == response)
         		        echo 'Latest version deployed'
         		    else
         		        echo 'Older version deployed'
 		        }
             }
-        }*/
+        }
 		stage('Run Selenium test') {
             steps {
                 sh '''cd testing
