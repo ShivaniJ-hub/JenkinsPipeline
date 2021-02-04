@@ -61,7 +61,7 @@ pipeline {
                 }
             }
         }
-        stage('Check Version') {
+        /*stage('Check Version') {
             steps {
                 sleep 15
                 script{
@@ -72,7 +72,7 @@ pipeline {
         		        echo 'Older version deployed'
 		        }
             }
-        }
+        }*/
 		stage('Run Selenium test') {
             steps {
                 sh '''cd testing
