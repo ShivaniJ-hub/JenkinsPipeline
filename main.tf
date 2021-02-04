@@ -20,11 +20,17 @@ resource "docker_image" "myimage" {
   build {
       path="."
   }
+  force_remove = true
 }
 
 resource "docker_container" "mycontainer" {
   name  = "mytomcat"
   image = docker_image.myimage.latest
+  must_run = true
+  ports {
+    internal = 8080
+    external = 9090
+  }
 }
 
 variable "password" {
