@@ -35,7 +35,7 @@ pipeline {
                 '''
             }
         }
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 sh 'docker build -t shivani221/tomcatserver .'
             }
@@ -51,6 +51,14 @@ pipeline {
         stage('Run Docker Container') {
             steps {
 				sh 'docker run -d --name mytomcat -p 9090:8080 shivani221/tomcatserver'
+            }
+        }*/
+	stage('Terraform Publish Docker Image and Run Container') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve -var "password=$dockerpass"'
+                }
             }
         }
         stage('Check Version') {
@@ -93,11 +101,15 @@ pipeline {
     }
 	post {
         always {
-            sh '''
-				docker rm -f mytomcat
-				cd testing
-				docker-compose down
-			'''
+            	/*sh '''
+			docker rm -f mytomcat
+			cd testing
+			docker-compose down
+		     '''*/
+		sh 'terraform destroy -auto-approve'
+		sh '''cd testing
+		      docker-compose down
+		   '''
         }
         success {
             echo 'Pipeline was Successful'
