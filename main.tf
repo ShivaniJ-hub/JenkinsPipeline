@@ -32,7 +32,7 @@ resource "docker_container" "mycontainer" {
     external = 9091
   }
 }
-resource "docker_network" "my_network" {
+/*resource "docker_network" "my_network" {
   name = "my_selenium_network"
 }
 
@@ -92,7 +92,7 @@ resource "docker_container" "chrome_3" {
   networks_advanced {
 	name = docker_network.my_network.name
   }
-}
+}*/
 
 variable "password" {
   type = string
