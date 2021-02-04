@@ -63,7 +63,7 @@ pipeline {
         }
         stage('Check Version') {
             steps {
-                sleep 10
+                sleep 15
                 script{
         		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9098/MusicStore/version.html', returnStdout: true)
         		    if(env.verCode == response)
