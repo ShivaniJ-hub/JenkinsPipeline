@@ -65,7 +65,7 @@ pipeline {
             steps {
                 sleep 10
                 script{
-        		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9090/MusicStore/version.html', returnStdout: true)
+        		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9098/MusicStore/version.html', returnStdout: true)
         		    if(env.verCode == response)
         		        echo 'Latest version deployed'
         		    else
