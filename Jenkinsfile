@@ -76,7 +76,7 @@ pipeline {
 		stage('Run Selenium test') {
             steps {
                 sh '''cd testing
-				#docker-compose up -d --scale chrome=3 
+				docker-compose up -d --scale chrome=3 
 				mvn clean -Dtest="UUIDTest.java,TestClass.java" test -Duuid="${verCode}"
 				#mvn clean -Dtest="FailTest.java" test -Duuid="${verCode}"
 				'''
@@ -113,9 +113,9 @@ pipeline {
 			docker-compose down
 		     '''*/
 		sh 'terraform destroy -auto-approve'
-		/*sh '''cd testing
+		sh '''cd testing
 		      docker-compose down
-		   '''*/
+		   '''
         }
         success {
             echo 'Pipeline was Successful'
