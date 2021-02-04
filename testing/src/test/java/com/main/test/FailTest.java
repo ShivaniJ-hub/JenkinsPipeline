@@ -45,7 +45,7 @@ protected WebDriver driver;
    @Test()
     public void googleTest() {
               
-        driver.get("http://devopsteamgoa.westindia.cloudapp.azure.com:9090/MusicStore/index.html");  
+        driver.get("http://devopsteamgoa.westindia.cloudapp.azure.com:9091/MusicStore/index.html");  
         // get the current URL of the page   
         String URL= driver.getCurrentUrl();  
         System.out.println("current URL of the page fetched: "+URL); 
