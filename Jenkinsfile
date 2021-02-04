@@ -7,7 +7,7 @@ pipeline {
 
     tools {
         // Install the Maven version configured as "Maven3.6.3" and add it to the path.
-        maven "Maven"
+        maven "maven"
     }
 
     stages {
@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Publish Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: '593fae78-145c-4817-b063-1eb5c20e7dcf', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
                     sh 'docker login -u $dockeruser -p $dockerpass'
                     sh 'docker push shivani221/tomcatserver'
                 }
@@ -57,7 +57,7 @@ pipeline {
             steps {
                 sleep 10
                 script{
-        		    def response = sh(script: 'curl http://192.168.111.128:9090/MusicStore/version.html', returnStdout: true)
+        		    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:9090/MusicStore/version.html', returnStdout: true)
         		    if(env.verCode == response)
         		        echo 'Latest version deployed'
         		    else
@@ -76,13 +76,13 @@ pipeline {
         }
 		stage('Deploy to Tomcat') {
             steps {
-                deploy adapters: [tomcat9(credentialsId: '72cdf5c2-cf1c-49d5-9e18-11f4f92e2484', path: '', url: 'http://localhost:8081/')], contextPath: 'music', war: 'musicstore/target/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://devopsteamgoa.westindia.cloudapp.azure.com:8081/')], contextPath: 'music', war: 'musicstore/target/*.war'
             }
         }
 		stage('Check Http Status') {
             steps {
                 script{
-        		    def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8081/music/index.html', returnStdout: true)
+        		    def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://devopsteamgoa.westindia.cloudapp.azure.com:8081/music/index.html', returnStdout: true)
         		    if(code == '200')
         		        echo 'Successfully deployed'
         		    else
