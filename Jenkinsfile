@@ -87,14 +87,20 @@ pipeline {
                 deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://devopsteamgoa.westindia.cloudapp.azure.com:8081/')], contextPath: 'music', war: 'musicstore/target/*.war'
             }
         }
-		stage('Check Http Status') {
+		stage('Check Http Status and Version') {
             steps {
                 script{
         		    def code = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://devopsteamgoa.westindia.cloudapp.azure.com:8081/music/index.html', returnStdout: true)
-        		    if(code == '200')
+        		    echo code
+			    if(code == '200')
         		        echo 'Successfully deployed'
         		    else
         		        echo 'Not deployed successfully'
+			    def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:8081/music/version.html', returnStdout: true)
+        		    if(env.verCode == response)
+        		        echo 'Latest version deployed'
+        		    else
+        		        echo 'Older version deployed'
 		        }
             }
         }
