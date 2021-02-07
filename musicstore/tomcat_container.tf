@@ -30,7 +30,7 @@ resource "docker_container" "mycontainer" {
   must_run = true
   ports {
     internal = 8080
-    external = 9090
+    external = 9091
   }
 }
 
