@@ -57,7 +57,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve -var "password=$dockerpass"'
+                    sh 'terraform apply -target=module.tomcat_container -var "pass=$dockerpass" -auto-approve'
                 }
             }
         }
@@ -75,8 +75,8 @@ pipeline {
         }
 		stage('Run Selenium test') {
             steps {
-                sh '''cd testing
-				docker-compose up -d --scale chrome=3 
+                sh '''	terraform apply -auto-approve -target=module.testing_containers -var pass=""
+				cd testing
 				mvn clean -Dtest="UUIDTest.java,TestClass.java" test -Duuid="${verCode}"
 				#mvn clean -Dtest="FailTest.java" test -Duuid="${verCode}"
 				'''
@@ -113,9 +113,6 @@ pipeline {
 			docker-compose down
 		     '''*/
 		sh 'terraform destroy -auto-approve'
-		sh '''cd testing
-		      docker-compose down
-		   '''
         }
         success {
             echo 'Pipeline was Successful'
