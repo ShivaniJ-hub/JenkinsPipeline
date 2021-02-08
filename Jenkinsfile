@@ -77,8 +77,8 @@ pipeline {
             steps {
                 sh '''	terraform apply -auto-approve -target=module.testing_containers -var pass=""
 				cd testing
-				#mvn clean -Dtest="UUIDTest.java,TestClass.java" test -Duuid="${verCode}"
-				mvn clean -Dtest="FailTest.java" test -Duuid="${verCode}"
+				mvn clean -Dtest="UUIDTest.java,TestClass.java" test -Duuid="${verCode}"
+				#mvn clean -Dtest="FailTest.java" test -Duuid="${verCode}"
 				'''
             }
         }
