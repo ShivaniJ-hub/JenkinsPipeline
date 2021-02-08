@@ -52,7 +52,7 @@ pipeline {
             steps {
 				sh 'docker run -d --name mytomcat -p 9090:8080 shivani221/tomcatserver'
             }
-        }
+        }*/
 	stage('Terraform Publish Docker Image and Run Containers') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
@@ -103,13 +103,8 @@ pipeline {
         		        echo 'Older version deployed'
 		        }
             }
-        }*/
-	stage('Terraform AWS') {
-            steps {
-                sh 'cp /musicstore/target/MusicStore.war /awstomcat/MusicStore'
-		sh 'terraform apply -target=module.awstomcat'
-            }
         }
+	
     }
 	post {
         always {
