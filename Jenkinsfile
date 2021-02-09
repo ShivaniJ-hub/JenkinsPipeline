@@ -104,11 +104,23 @@ pipeline {
 		        }
             }
         }
+	stage('Deploy to Terraform AWS Instance') {
+            steps {
+		withCredentials([string(credentialsId: '4acb242d-d781-4e5a-b50f-3a0447bf81d8', variable: 'acc'), string(credentialsId: 'bff5f0c0-d66b-42a6-8f36-d2aa999fb4ab', variable: 'sec')]) {
+    		    sh '''cp musicstore/target/MusicStore.war awstomcat/MusicStore.war
+		    cd awstomcat
+		    terraform init
+		    terraform apply -var "access=$acc" -var "secret=$sec" -auto-approve 
+		    terraform output -raw aws_link'''
+		}
+            }
+        }
 	
     }
-	post {
+     post {
         always {
             	/*sh '''
+		
 			docker rm -f mytomcat
 			cd testing
 			docker-compose down
